@@ -10,9 +10,11 @@ and what margin remains.
 ## What you can do in the demo
 
 - **Scenario cards** — one click loads an architecture + an event + a batch plane and runs it end to end.
-- **Build** — drag a single-line diagram; the normative content is hashed (SLD-DSL), display coordinates are not.
+- **Build** — a single-line diagram editor: drag components from the palette, wire a terminal to a terminal or onto a
+  busbar, undo / redo, auto-arrange top-down; the inspector shows each parameter with its valid range, its unit and
+  where the engine reads it. The normative content is hashed (SLD-DSL); placement on the canvas is not.
 - **Simulate** — event-level run at dt = 0.5 ms over 60 s: bus voltage, PSU holdup, pump coast-down,
-  GPU thermal throttling, and the compute trace that results.
+  GPU thermal throttling, and the compute trace that results — played back on the same diagram.
 - **Coverage certificate** — sweep two parameters into a pass / derate / outage heatmap, export the
   certificate JSON (sha256 fingerprint) or a print-ready PDF report.
 - **Control-loop resonance screening** — DC-link voltage-control loop against grid impedance
