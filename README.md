@@ -53,7 +53,8 @@ record, and a validation ladder computes what may be signed — today nothing is
 
 ## Notes
 
-- Runs fully in the browser — no backend, nothing uploaded.
+- Runs fully in the browser — no backend, nothing uploaded. Simulations run in Web Workers: a batch plane is shared across
+  your CPU cores, and a long run (up to 300 s of simulated time) leaves the page responsive.
 - The optional AI event-drafting feature asks for your own Anthropic API key and calls the API directly
   from your browser; the key is kept in `localStorage` only.
 - This repository hosts the built demo only. Source is not published at this time — contact below.
