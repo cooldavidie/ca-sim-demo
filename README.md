@@ -13,8 +13,11 @@ and what margin remains.
 - **Build** — a single-line diagram editor: drag components from the palette, wire a terminal to a terminal or onto a
   busbar, undo / redo, auto-arrange top-down; the inspector shows each parameter with its valid range, its unit and
   where the engine reads it. The normative content is hashed (SLD-DSL); placement on the canvas is not.
-- **Simulate** — event-level run at dt = 0.5 ms over 60 s: bus voltage, PSU holdup, pump coast-down,
-  GPU thermal throttling, and the compute trace that results — played back on the same diagram.
+- **Simulate** — event-level run at dt = 0.5 ms: bus voltage, PSU holdup, pump coast-down, GPU thermal throttling,
+  and the compute trace that results — played back on the same diagram. The run covers the event: its last change
+  plus 10 s (at least 60 s, at most 300 s). An event that leaves the system in a new state — an N-1 trip, a load that
+  stays at a new level — always runs the full 300 s and is judged on that window, which the result states; an event
+  that does not fit in 300 s is reported as not determined rather than passed.
 - **Coverage certificate** — sweep two parameters into a pass / derate / outage heatmap, export the
   certificate JSON (sha256 fingerprint) or a print-ready PDF report.
 - **Control-loop resonance screening** — DC-link voltage-control loop against grid impedance
@@ -24,8 +27,14 @@ and what margin remains.
   past the module's search limit with the bus still held are labelled as an assumption boundary, not a collapse.
 - **N-1 component events** — `internal.*` entries (a pump failing, a solid-state breaker opening) with the
   loads behind the opened device as the expected loss and the verdict on everything beyond them.
+- **Cooling plant and facility management** — chillers, DX compressors, pump stations and air handlers on the same
+  motor model as the CDU pumps (trip, coast-down, restart delay, anti-short-cycle), a BMS that restarts them in
+  priority bands, and three heat nodes (coolant loop, facility water, room air) with a thermal tail after the run.
+  Results with a cooling plant are marked preview.
 - **Ride-through compliance as data** — 25 public rules (ERCOT, PJM, ENTSO-E, OCP, ITIC, SEMI F47 …), each
-  with its source clause; the selected rule's verdict enters the certificate.
+  with its source clause; the selected rule's verdict enters the certificate. Where a rule excludes cooling, only the
+  cooling actually inside the measured draw is subtracted, and ERCOT / PJM's tripped-cooling carve-out is read
+  device by device.
 - **OpenUSD export** — the SLD, the event, and a run's time-sampled results as `.usda` for digital-twin stages.
 
 ## Provenance
